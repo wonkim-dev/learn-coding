@@ -47,3 +47,45 @@ function getTrappedRainwater1(array) {
 }
 
 console.log(getTrappedRainwater1(heights));
+
+/**
+ * Instead of using a single pointer that iterates all elements in the array,
+ * use 2 pointers starting from the both ends of the array and moving inwards.
+ * This 2 pointer technique requires only one while loop through the array,
+ * and water volume on each pointer is directly calculated on the fly.
+ * Time complexity: O(n)
+ * Space complexity: O(1)
+ */
+function getTrappedRainwater2(array) {
+  let totalWater = 0;
+  let currentWater;
+  let leftP = 0;
+  let rightP = array.length - 1;
+  let leftMax = 0;
+  let rightMax = 0;
+  while (leftP !== rightP) {
+    // work and move on a pointer with less value
+    if (array[leftP] <= array[rightP]) {
+      if (array[leftP] >= leftMax) {
+        leftMax = array[leftP]; // update leftMax
+      } else {
+        // calculate the trapped water on the current element
+        currentWater = leftMax - array[leftP];
+        totalWater += currentWater;
+      }
+      leftP++;
+    } else {
+      if (array[rightP] >= rightMax) {
+        rightMax = array[rightP]; // update rightMax
+      } else {
+        // calculate the trapped water on the current element
+        currentWater = rightMax - array[rightP];
+        totalWater += currentWater;
+      }
+      rightP--;
+    }
+  }
+  return totalWater;
+}
+
+console.log(getTrappedRainwater2(heights));
