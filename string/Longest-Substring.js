@@ -48,3 +48,29 @@ function getLongestSubstring1(string) {
 
 const str = "abcdbefg";
 console.log(getLongestSubstring1(str));
+
+//-------------------------------------------------------------------
+
+// Optimization with sliding window technique.
+// Set leftP and rightP as boundaries of window representing the substring.
+// time complexity: O(n)
+// space complexity: O(n)
+
+function getLongestSubstring2(string) {
+  if (string.length <= 1) {
+    return string.length;
+  }
+  const seen = {};
+  let leftP = 0;
+  let maxLength = 0;
+  for (let rightP = 0; rightP < string.length; rightP++) {
+    const currentCharacter = string[rightP];
+    const prevSeenChar = seen[currentCharacter];
+    if (prevSeenChar >= leftP) {
+      leftP = prevSeenChar + 1;
+    }
+    seen[currentCharacter] = rightP;
+    maxLength = Math.max(maxLength, rightP - leftP + 1);
+  }
+  return maxLength;
+}
